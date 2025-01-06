@@ -5,7 +5,7 @@ mov si, 0
 
 print:
         mov ah, 0x0e
-        mox al, [hello + si]
+        mov al, [hello + si]
         int 0x10
         add si, 1
         cmp [hello + si], 0
