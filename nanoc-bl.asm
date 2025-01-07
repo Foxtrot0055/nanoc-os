@@ -11,6 +11,9 @@ print:
         cmp byte [hello + si], 0
         jne print
 
+mov eax, cr0
+mov eax, 1
+mov cr0, eax
 hlt
 
 hello:
