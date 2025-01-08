@@ -6,16 +6,15 @@ load_kernel:
         mov dl, 0x80 ;set drive 0x80 which should be the c drive
         int 0x13 ;bios int for function above
         mov si, disk_adress_packet
-        mov ds, 0
                 
 disk_adress_packet:
-        db 0x10 ;size of packet(16 bytes)
+        db 0x10 ;size of dapack (16 bytes)
         db 0 ;always zero
-        dw 0x0010 ;load 256 packets for 4KiB
-        dd 0 ;transfer buffer
-        dd end_label + 2 ;low 32bits of starting lba
-        dw 0x7E00
-        dw 0 ;high 16bits of starting lba apperently it needs to be dd
+        dw 16 ;read 16 packets for 8192 bytes 
+        dw hello ;transfer buffer
+        dw 0x0003 ;transfer buffer offset (16byte steps)
+        dd hello ;low 32bits of starting lba 
+        dd 0 ;high 16bits of starting lba apperently it needs to be dd
         
 ;transition_to_protected_mode:
 ;        mov eax, cr0
@@ -25,16 +24,18 @@ disk_adress_packet:
 mov si, 0
 print:
         mov ah, 0x0e
-        mov al, [hello + si]
+        mov al, [$$ + si]
         int 0x10
         inc si
-        cmp byte [hello + si], 0
+        ;cmp byte [hello + si], 0
+        ;jne print
+        cmp si, 256
         jne print
-
+        jmp print - 1
 hlt
 end_label:
 times 510 - ($ - $$) db 0
 dw 0xAA55
 
 hello:
-        db "Hello, world", 0
+       times 0x0100 db "go"
