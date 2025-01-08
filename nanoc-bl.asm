@@ -9,8 +9,7 @@ buffer_zero:
 				mov [si], 0
 				inc si
 				cmp si, buffer + 256
-				jne $ + 2
-				jmp buffer_zero
+				jne buffer_zero
 
 load_kernel:
         mov ah, 0x42 ;bios function for reading drive in lba(modern) mode
