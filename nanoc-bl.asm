@@ -43,6 +43,17 @@ checkmsg:
         mov ah, 0x0e
         mov al, byte "c"
         int 0x10
+
+mov ah, 0x41
+mov bx, 0x55aa
+mov dl, 0x80
+int 0x13
+cmp bx, 0xaa55
+jne end
+mov ah, 0x0e
+mov al, byte "v"
+int 0x10
+
 end:
         hlt
 
