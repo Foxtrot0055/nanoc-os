@@ -63,11 +63,11 @@ disk_adress_packet:
         dw 0x1 ;read 1 packets for 512 bytes 
         dw 0x8000 ;transfer buffer start adress
         dw 0x0000 ;transfer buffer offset (16byte steps)
-        dd 0X7e00 ;low 32bits of starting lba 
+        dd 0X1 ;low 32bits of starting lba 
         dd 0 ;high 16bits of starting lba apperently it needs to be dd
 
 times 510 - ($ - $$) db 0
 dw 0xAA55
 
 hello:
-       times 0x0100 db "go"
+;       times 0x0100 db "go"
