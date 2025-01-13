@@ -3,13 +3,11 @@ org 0x7c00
 
 buffer:
 	dw 0x8000
+
 xor di, di
 
 buffer_zero:
-	mov word [di + 0x8000], 0
-	inc di
-	cmp di, 512
-	jne buffer_zero
+
 
 load_kernel:
         mov ah, 0x42 ;bios function for reading drive in lba(modern) mode
