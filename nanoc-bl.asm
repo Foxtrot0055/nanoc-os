@@ -37,5 +37,32 @@ disk_adress_packet:
         dd 0X1      ;low 32bits of starting lba in 512byte units 
         dd 0        ;high 16bits of starting lba apperently it needs to be dd
 
+GDT_Start:
+        null_descriptor:
+                dd 0
+                dd 0
+        code_descriptor:
+                dw 0xFFFF; first 16bits of limit
+                dw 0x0000; first 24bits
+                db 0x00
+                db 10011010; access byte
+                db 11001111; xxxx=flags | xxxx=4bits of limit
+                db 0
+        data_descriptor:
+                dw 0xFFFF; first 16bits of limit
+                dw 0x0000; first 24bits
+                db 0x00
+                db 10010010; access byte
+                db 11001111; xxxx=flags | xxxx=4bits of limit
+                db 0
+GDT_End:
+        
+GDT_Descriptor:
+        dw GDT_End - GDT_Start - 1        ;size
+        dd GDT_Start
+
+CODE_SEG equ code_descriptor - GDT_Start
+DATA_SEG equ data_descriptor - GDT_Start
+
 times 510 - ($ - $$) db 0
 dw 0xAA55
