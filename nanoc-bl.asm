@@ -30,39 +30,39 @@ print:
         inc si
         cmp si, 512
         jne print
-        mov al, byte "s" 
-        int 0x10
+;        mov al, byte "s"        ;probably unnescesary test 
+;        int 0x10                ;^
 
 lea ax, hello
 cmp ax, 0x7e00
 jne end
 
-checkmsg:
-        mov ah, 0x0e
-        mov al, byte "c"
-        int 0x10
+;checkmsg:                ;prolly unscy test
+;        mov ah, 0x0e     ;-
+;        mov al, byte "c" ;-
+;        int 0x10         ;-
 
-mov ah, 0x41
-mov bx, 0x55aa
-mov dl, 0x80
-int 0x13
-cmp bx, 0xaa55
-jne end
-mov ah, 0x0e
-mov al, byte "v"
-int 0x10
+;mov ah, 0x41        checks if 0x13 extensions are supported
+;mov bx, 0x55aa
+;mov dl, 0x80
+;int 0x13
+;cmp bx, 0xaa55
+;jne end
+;mov ah, 0x0e
+;mov al, byte "v"
+;int 0x10
 
 end:
         hlt
 
 disk_adress_packet:
-        db 0x10 ;size of dapack (16 bytes)
-        db 0 ;always zero
-        dw 0x1 ;read 1 packets for 512 bytes 
-        dw 0x8000 ;transfer buffer start adress
-        dw 0x0000 ;transfer buffer offset (16byte steps)
-        dd 0X1 ;low 32bits of starting lba 
-        dd 0 ;high 16bits of starting lba apperently it needs to be dd
+        db 0x10     ;size of dapack (16 bytes)
+        db 0        ;always zero
+        dw 0x1      ;read 1 packets for 512 bytes 
+        dw 0x8000   ;transfer buffer start adress
+        dw 0x0000   ;transfer buffer offset (16byte steps)
+        dd 0X1      ;low 32bits of starting lba 
+        dd 0        ;high 16bits of starting lba apperently it needs to be dd
 
 times 510 - ($ - $$) db 0
 dw 0xAA55
