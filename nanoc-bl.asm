@@ -12,16 +12,6 @@ load_kernel:
         lea si, [disk_adress_packet]
         int 0x13 ;bios int for function above         
 
-        mov si, 0
-print:
-        mov ah, 0x0e
-        mov al, [0x8000 + si]
-        int 0x10
-        inc si
-        cmp si, 512
-        jne print
-
-
 CODE_SEG equ code_descriptor - GDT_Start
 DATA_SEG equ data_descriptor - GDT_Start
 
@@ -39,7 +29,7 @@ hlt
 disk_adress_packet:
         db 0x10     ;size of dapack (16 bytes)
         db 0        ;always zero
-        dw 0x1      ;read 1 packets for 512 bytes 
+        dw 0x1      ;read 1 packets for 512b 
         dw 0x8000   ;transfer buffer start adress
         dw 0x0000   ;transfer buffer offset (16byte steps)
         dd 0X1      ;low 32bits of starting lba in 512byte units 
@@ -73,9 +63,6 @@ GDT_Descriptor:
 
 [bits 32]
 start_protected_mode:
-        mov al, 'A'
-        mov ah, 0x0f
-        mov [0xb8000], ax 
         jmp 0x8000
 
 times 510 - ($ - $$) db 0
