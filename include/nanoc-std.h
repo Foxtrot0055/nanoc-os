@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <string.h>
 
 int cursor = 0;
 
